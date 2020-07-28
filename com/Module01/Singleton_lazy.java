@@ -35,7 +35,7 @@ public class Singleton_lazy {
     /*
     * 此方法应用了synchronized关键字表示方法，保证原子性，但是效率比较低下
     * */
-    public synchronized Singleton_lazy getInstanceB(){
+    public static synchronized Singleton_lazy getInstanceB(){
         if (null == instance) {
             instance = new Singleton_lazy();
         }
@@ -45,7 +45,7 @@ public class Singleton_lazy {
     /*
     *  此方法减少了同步的代码块区域来提高效率
     * */
-    public Singleton_lazy getInstanceC(){
+    public static Singleton_lazy getInstanceC(){
         if (null == instance) {
             synchronized (Singleton_lazy.class){
                 //判断在对对象加锁期间，其余线程是否已经获取了instance对象
@@ -55,6 +55,14 @@ public class Singleton_lazy {
             }
         }
         return instance;
+    }
+
+    public static void main(String[] args) {
+        Singleton_lazy singleton_lazy= getInstanceA();
+        Singleton_lazy singleton_lazy1 = getInstanceC();
+        Singleton_lazy singleton_lazy2 =getInstanceB();
+        System.out.println(singleton_lazy==singleton_lazy1);
+        System.out.println(singleton_lazy1==singleton_lazy2);
     }
 }
 
